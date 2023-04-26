@@ -9,14 +9,11 @@ function App() {
   const [inputData, setInputData] = useState('LWZJ7J');
   const [loading, setLoading] = useState(false); // state variable for loading status
   const [apiKey, setApiKey] = useState('LWZJ7J');
-  const [lastWorkingKey, setLastWorkingKey] = useState('');
 
   useEffect(() => {
     const fetchData = () => {
       localStorage.clear();
       setLoading(true);
-      setLastWorkingKey(apiKey);
-      console.log('this is last key: ' + lastWorkingKey);
       fetch(
         `https://proxyserversalestracker.onrender.com/https://manager.tickster.com/Statistics/SalesTracker/Api.ashx?keys=${apiKey.trim()}`
       )
@@ -26,9 +23,6 @@ function App() {
           setData(data);
           // Spara data i local storage -
           localStorage.setItem('cachedData', JSON.stringify(data));
-          setApiKey(inputData);            
-          setLastWorkingKey(apiKey);
-          console.log(lastWorkingKey);
           setLoading(false);
         }) 
         .catch((error) => console.error(error));
@@ -52,8 +46,7 @@ function App() {
   };
 
   const refresh = () => {
-    console.log(lastWorkingKey);
-    setApiKey(lastWorkingKey);
+    window.location.reload();
   };
 
   const saveInput = () => {
@@ -62,8 +55,6 @@ function App() {
     if (inputData.length === 6) {
       localStorage.clear();
       setLoading(true);
-      setLastWorkingKey(apiKey);
-      console.log('this is last key: ' + lastWorkingKey);
 
       fetch(
         `https://proxyserversalestracker.onrender.com/https://manager.tickster.com/Statistics/SalesTracker/Api.ashx?keys=${apiKey.trim()}`
@@ -74,9 +65,6 @@ function App() {
           // Spara data i local storage -
             localStorage.setItem('cachedData', JSON.stringify(data));
             setApiKey(inputData);
-            setLastWorkingKey(apiKey);
-            localStorage.setItem('lastWorkingKey', JSON.stringify(apiKey));
-            console.log(lastWorkingKey);
             setLoading(false);
         })
         .catch((error) => {
@@ -172,7 +160,7 @@ function App() {
               </Fade>
             ))
           ) : (
-            <p className='error'></p>
+            <p className='error'>Nyckeln tillhör inte Krall</p>
           )}
           <button className='refresh' onClick={refresh}>
             Ladda om sidan
