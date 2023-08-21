@@ -87,7 +87,7 @@ function App() {
   if (!data) {
     return (
       <div className='keyInput'>
-        <img src={logo} alt='Krall' className='logo' />
+        <a href="https://diggilootrackers.netlify.app/"><img src={logo} alt='Krall' className='logo'/></a>
         {loading ? (
           <div>
             <p className='loading'>Laddar data</p>
@@ -126,7 +126,7 @@ function App() {
     <div className='App'>
       <header className='App-header'>
         <div className='eventFeed'>
-          <img src={logo} alt='Krall' className='logo' />
+          <a href="https://diggilootrackers.netlify.app/"><img src={logo} alt='Krall' className='logo'/></a>
           {loading ? <p className='loading'>Laddar data</p> : <p></p>}
           {!loading  ? (
             data.map((item, index) => (
@@ -144,7 +144,16 @@ function App() {
                     
 
                     {item.gfs
-                      .filter(ticket => ticket.name === "PICKNICK DELUXE FÖR 2" || ticket.name === "PICKNICK KLASSIKERN FÖR 2") // filter out tickets that have type 1
+                      .filter(ticket => 
+                        ticket.name !== "Tillgänglighetsanpassad plats" &&                         
+                        ticket.name !== "Sittplats i det gröna" && 
+                        ticket.name !== "Ledsagare i det gröna" &&
+                        ticket.name !== "Ledsagare" &&
+                        ticket.name !== "Parkett B" &&
+                        ticket.name !== "Parkett A" &&
+                        ticket.name !== "Drottning Silvias Barnsjukhus" &&
+                        ticket.name !== "Barn t.o.m. 14 år"
+                      ) // filter out tickets that have type 1
                       .map(ticket => ( // map over the filtered tickets
                        <div className='ticketInfo'>
                         <p><b>{ticket.name + ': '}</b></p>
@@ -165,19 +174,6 @@ function App() {
           <button className='refresh' onClick={refresh}>
             Ladda om sidan
           </button>
-        </div>
-
-        <div className='keyInput'>
-          <p className='currentKey'>Ladda data från en annan nyckel:</p>
-          <input
-            type='text'
-            value={inputData}
-            onChange={handleInput}
-            placeholder='T ex 12345'
-            onKeyDown={handleKeyDown}
-            onFocus={handleFocus}
-          />
-          <button onClick={saveInput}>Hämta</button>
         </div>
       </header>
     </div>
